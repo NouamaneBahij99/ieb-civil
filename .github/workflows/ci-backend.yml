@@ -21,10 +21,15 @@ jobs:
           cache: maven
 
       - name: 🧪 Lancer les tests
-        run: cd backend && ./mvnw test
+        run: cd backend && ./mvnw test -Dspring.profiles.active=test
         env:
           JWT_SECRET: TestSecretKeyForCICD1234567890AbCdEfGhIj
           JWT_EXPIRATION: 86400000
+          SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+          SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
+          SPRING_DATASOURCE_USERNAME: sa
+          SPRING_DATASOURCE_PASSWORD: ""
+          SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.H2Dialect
 
       - name: 🏗️ Build JAR
         run: cd backend && ./mvnw package -DskipTests
